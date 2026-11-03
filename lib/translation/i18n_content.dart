@@ -267,6 +267,13 @@ class I18n {
       homeLogImageSaveSuccess = 'home_log_image_save_success',
       homeLogImageSaveFailed = 'home_log_image_save_failed',
       homeLogScrollToBottom = 'home_log_scroll_to_bottom';
+  static const String homeLogErrorScreenshot = 'home_log_error_screenshot',
+      homeLogOpenLogFolder = 'home_log_open_log_folder',
+      homeLogNoScreenshot = 'home_log_no_screenshot',
+      homeLogLogFolderMissing = 'home_log_log_folder_missing',
+      homeLogDownloadScreenshot = 'home_log_download_screenshot';
+  static const String homeLogImageViewerReset = 'home_log_image_viewer_reset',
+      homeLogImageViewerHint = 'home_log_image_viewer_hint';
   static const String taskManage = 'task_manage',
       taskManageTitle = 'task_manage_title',
       taskSearchHint = 'task_search_hint';

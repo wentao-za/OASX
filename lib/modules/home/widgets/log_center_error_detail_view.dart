@@ -120,6 +120,14 @@ class LogCenterErrorDetailView extends StatelessWidget {
                         const SizedBox(height: 12),
                         _ErrorDetailSection(
                           borderColor: colors.primary.withValues(alpha: .2),
+                          child: LogCenterErrorImageCard(
+                            controller: controller,
+                            detail: detail,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        _ErrorDetailSection(
+                          borderColor: colors.primary.withValues(alpha: .2),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [

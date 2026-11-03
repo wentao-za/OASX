@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:oasx/api/api_client.dart';
 import 'package:oasx/modules/log/log_browser_models.dart';
@@ -11,6 +12,7 @@ part 'log_center_copy_dialog.dart';
 part 'log_center_error_view.dart';
 part 'log_center_error_detail_view.dart';
 part 'log_center_error_image_card.dart';
+part 'log_center_error_image_viewer.dart';
 part 'log_center_info_view.dart';
 part 'log_center_log_text.dart';
 part 'log_center_log_text_span_builder.dart';

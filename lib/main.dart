@@ -31,7 +31,12 @@ void main() async {
 
   runApp(
     DevicePreview(
-      enabled: !kReleaseMode && PlatformUtils.isWindows,
+      // Desktop layout is the default. Pass
+      // --dart-define=DEVICE_PREVIEW=true to inspect mobile layouts.
+      enabled:
+          const bool.fromEnvironment('DEVICE_PREVIEW') &&
+          !kReleaseMode &&
+          PlatformUtils.isWindows,
       builder: (context) => const OASXApp(),
     ),
   );

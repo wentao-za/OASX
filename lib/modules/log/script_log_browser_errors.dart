@@ -333,6 +333,46 @@ extension ScriptLogBrowserErrorsX on ScriptLogBrowserController {
     }
   }
 
+  /// Reveals the selected error log folder in the system file manager.
+  Future<void> openErrorLogDirectory() async {
+    final detail = selectedErrorDetail.value;
+    if (detail == null) {
+      return;
+    }
+    final root =
+        (GetStorage().read<String>(StorageKey.rootPathServer.name) ?? '')
+            .trim();
+    final directory = detail.directory.trim();
+    if (root.isEmpty || directory.isEmpty) {
+      _showMissingLogFolder();
+      return;
+    }
+    final opened = await revealPathInFileManager(
+      _joinErrorLogPath(root, directory),
+    );
+    if (!opened) {
+      _showMissingLogFolder();
+    }
+  }
+
+  /// Shows the shared hint used when the error folder cannot be revealed.
+  void _showMissingLogFolder() {
+    Get.snackbar(
+      I18n.tip.tr,
+      I18n.homeLogLogFolderMissing.tr,
+      duration: const Duration(seconds: 2),
+    );
+  }
+
+  /// Joins the OAS root path with one error directory using its separator.
+  String _joinErrorLogPath(String root, String directory) {
+    final separator = root.contains('\\') ? '\\' : '/';
+    final trimmed = root.endsWith('\\') || root.endsWith('/')
+        ? root.substring(0, root.length - 1)
+        : root;
+    return '$trimmed${separator}log${separator}error$separator$directory';
+  }
+
   /// Returns whether the current runtime target is mobile.
   bool _isMobileTargetPlatform() {
     return defaultTargetPlatform == TargetPlatform.android ||

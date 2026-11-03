@@ -11,8 +11,9 @@ class AppVersionUtils {
         ? currentParts.length
         : latestParts.length;
     for (var index = 0; index < maxLength; index++) {
-      final currentValue =
-          index < currentParts.length ? currentParts[index] : 0;
+      final currentValue = index < currentParts.length
+          ? currentParts[index]
+          : 0;
       final latestValue = index < latestParts.length ? latestParts[index] : 0;
       if (latestValue > currentValue) {
         return true;
@@ -34,11 +35,21 @@ class AppVersionUtils {
   }
 
   /// Normalizes a semantic version string into integer parts.
+  ///
+  /// Windows VERSIONINFO reports the pubspec version verbatim (`1.0.1+3`), so
+  /// the build suffix has to be dropped before splitting; otherwise `1+3`
+  /// fails to parse and the patch segment collapses to 0. Release tags may
+  /// additionally carry a fourth revision segment (`v1.0.1.1`) while pubspec
+  /// versions stop at `major.minor.patch`, so only the first three segments
+  /// take part in the comparison. Without that, a local `v1.0.1` build would
+  /// keep "finding" its own `v1.0.1.1` tag forever.
   static List<int> _normalizeVersion(String version) {
     final normalized = version.trim().replaceFirst(RegExp('^v'), '');
-    return normalized
+    final core = normalized.split('+').first;
+    final parts = core
         .split(RegExp(r'[.\-]'))
         .map((part) => int.tryParse(part) ?? 0)
         .toList();
+    return parts.length > 3 ? parts.sublist(0, 3) : parts;
   }
 }

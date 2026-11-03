@@ -236,6 +236,15 @@ final Map<String, String> _us_ui = {
   I18n.homeLogImageSaveSuccess: 'Image saved',
   I18n.homeLogImageSaveFailed: 'Failed to save image',
   I18n.homeLogScrollToBottom: 'Scroll to bottom',
+  I18n.homeLogErrorScreenshot: 'Error screenshot',
+  I18n.homeLogOpenLogFolder: 'Open log folder',
+  I18n.homeLogNoScreenshot: 'No screenshot for this error',
+  I18n.homeLogLogFolderMissing:
+      'Error log folder not found. Check the OAS root path setting.',
+  I18n.homeLogDownloadScreenshot: 'Download screenshot',
+  I18n.homeLogImageViewerReset: 'Reset to 100%',
+  I18n.homeLogImageViewerHint:
+      'Scroll to zoom · Drag to pan · Double click to reset to 100%',
   I18n.argsDraftDirty: 'Pending changes',
   I18n.argsMixedValue: 'Mixed value',
   I18n.argsDiscardChanges: 'Discard',
