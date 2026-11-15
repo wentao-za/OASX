@@ -70,6 +70,7 @@ extension HomeDashboardStartupX on HomeDashboardController {
       if (connected) {
         await _refreshScriptsAfterConnected(triggerAutoRun: triggerAutoRun);
         await _refreshTranslationsAfterLogin();
+        await _refreshTaskNames();
         return;
       }
 
@@ -136,6 +137,16 @@ extension HomeDashboardStartupX on HomeDashboardController {
     } catch (_) {
       // Keep login flow working even if translation refresh fails.
     }
+  }
+
+  /// Task names are owned by OAS, so they are pulled separately from the UI
+  /// translation table. Failures stay visible through `lastError` instead of
+  /// being swallowed; the page still renders thanks to the offline fallback.
+  Future<void> _refreshTaskNames() async {
+    if (!Get.isRegistered<TaskNameService>()) {
+      return;
+    }
+    await Get.find<TaskNameService>().refresh();
   }
 
   Future<bool> _waitForAddressConnected({

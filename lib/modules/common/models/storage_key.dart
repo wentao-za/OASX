@@ -13,6 +13,7 @@ enum StorageKey {
   skipExitConfirmDialog,
   launchAtStartup,
   rootPathServer,
+  taskNames,
   autoLoginAfterDeploy,
   temporaryDirectory,
   autoScriptList,

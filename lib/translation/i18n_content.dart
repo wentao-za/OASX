@@ -338,6 +338,7 @@ class I18n {
       trueOrochi = 'TrueOrochi';
   static const String richMan = 'RichMan',
       secret = 'Secret',
+      weeklyPurchase = 'WeeklyPurchase',
       weeklyTrifles = 'WeeklyTrifles';
   static const String mysteryShop = 'MysteryShop',
       duel = 'Duel',

@@ -12,6 +12,7 @@ import 'package:oasx/service/app_update_service.dart';
 import 'package:oasx/service/locale_service.dart';
 import 'package:oasx/service/script_service.dart';
 import 'package:oasx/service/system_tray_service.dart';
+import 'package:oasx/service/task_name_service.dart';
 import 'package:oasx/service/theme_service.dart';
 import 'package:oasx/service/websocket_service.dart';
 import 'package:oasx/service/window_service.dart';
@@ -102,5 +103,6 @@ Future<void> initService() async {
     Get.putAsync(() async => AppUpdateService(), permanent: true),
     windowService.ready,
     Get.putAsync(() async => ScriptService(), permanent: true),
+    Get.putAsync(() async => TaskNameService(), permanent: true),
   ]);
 }

@@ -1,13 +1,27 @@
 import 'package:oasx/translation/i18n.dart';
 
+String _fold(String value) =>
+    value.replaceAll(RegExp(r'[\s_]'), '').toUpperCase();
+
 /// Canonical names keep upper-case logger headings translatable in the UI.
 final _taskNames = <String, String>{
-  for (final key in Messages().all_cn_translate.keys)
-    key.replaceAll(RegExp(r'[\s_]'), '').toUpperCase(): key,
+  for (final key in Messages().all_cn_translate.keys) _fold(key): key,
 };
 
-String _canonicalTask(String value) =>
-    _taskNames[value.replaceAll(RegExp(r'[\s_]'), '').toUpperCase()] ?? value;
+/// Newer backends render level-0 headings as `中文名(foldedclass)`, e.g.
+/// `探索(exploration)` or `每周购买(weeklypurchase)`. The part inside the
+/// parentheses is the class name folded to lower case without separators, so
+/// it must be mapped back to `Exploration` / `WeeklyPurchase` before the UI can
+/// pair a Chinese name with a class name.
+final _headingShape = RegExp(r'^(.+?)\(([A-Za-z][A-Za-z0-9_.]*)\)$');
+
+String _canonicalTask(String value) {
+  final raw = value.trim();
+  final probe = _headingShape.firstMatch(raw)?.group(2) ?? raw;
+  // Unknown tasks keep the folded identifier: `TaskNameService` indexes the
+  // names OAS ships by the same folded form, so the pair still resolves.
+  return _taskNames[_fold(probe)] ?? probe;
+}
 
 /// Tracks only level-0 task headings, not battle/page subheadings.
 /// save_error_log keeps the final separator plus the preceding two lines,

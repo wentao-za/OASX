@@ -44,12 +44,14 @@ class LogCenterErrorDetailView extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: Text(
-                    summary?.task.tr ?? controller.selectedErrorTitle.value,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  child: summary == null
+                      ? Text(
+                          controller.selectedErrorTitle.value,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )
+                      : _ErrorTaskHeading(summary: summary),
                 ),
               ],
             ),
@@ -235,6 +237,65 @@ class LogCenterErrorDetailView extends StatelessWidget {
         ],
       );
     });
+  }
+}
+
+class _ErrorTaskHeading extends StatelessWidget {
+  const _ErrorTaskHeading({required this.summary});
+
+  final ErrorLogSummary summary;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final code = TaskNameService.to.code(summary.task);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          TaskNameService.to.display(summary.task),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        if (code != null)
+          Row(
+            children: [
+              Flexible(
+                child: SelectableText(
+                  code,
+                  maxLines: 1,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.onSurfaceVariant,
+                  ),
+                ),
+              ),
+              IconButton(
+                tooltip: I18n.copy.tr,
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: code));
+                  Get.snackbar(
+                    I18n.tip.tr,
+                    I18n.copySuccess.tr,
+                    duration: const Duration(seconds: 1),
+                  );
+                },
+                icon: const Icon(Icons.copy_rounded, size: 14),
+                visualDensity: VisualDensity.compact,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minWidth: 26, minHeight: 26),
+                style: IconButton.styleFrom(
+                  foregroundColor: colors.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+      ],
+    );
   }
 }
 

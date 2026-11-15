@@ -119,12 +119,14 @@ class LogCenterErrorView extends StatelessWidget {
                             size: 22,
                           ),
                         ),
-                        title: Text(summary?.task.tr ?? '正在读取任务…'),
-                        subtitle: Text(
-                          '${_formatErrorTime(item)}\n配置：${item.scriptName ?? "未确认"}\n${summary?.type ?? "正在识别错误类型…"}',
-                          maxLines: 4,
+                        title: Text(
+                          summary == null
+                              ? '正在读取任务…'
+                              : TaskNameService.to.display(summary.task),
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
+                        subtitle: _buildErrorSubtitle(context, item, summary),
                         trailing: const Icon(
                           Icons.chevron_right_rounded,
                           size: 20,
@@ -140,6 +142,38 @@ class LogCenterErrorView extends StatelessWidget {
         ),
         if (controller.errorHasMore.value) _buildLoadMore(context),
       ],
+    );
+  }
+
+  /// Task class name leads the subtitle as its own line, so the list keeps a
+  /// single Chinese title and stays grep-able without inline separators.
+  Widget _buildErrorSubtitle(
+    BuildContext context,
+    ScriptErrorLogItem item,
+    ErrorLogSummary? summary,
+  ) {
+    final theme = Theme.of(context);
+    final code = summary == null ? null : TaskNameService.to.code(summary.task);
+    return Text.rich(
+      TextSpan(
+        children: [
+          if (code != null)
+            TextSpan(
+              text: '$code\n',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          TextSpan(
+            text:
+                '${_formatErrorTime(item)}\n'
+                '配置：${item.scriptName ?? "未确认"}\n'
+                '${summary?.type ?? "正在识别错误类型…"}',
+          ),
+        ],
+      ),
+      maxLines: 5,
+      overflow: TextOverflow.ellipsis,
     );
   }
 
