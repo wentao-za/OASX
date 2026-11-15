@@ -47,6 +47,7 @@ final Map<String, String> _cn_menu = {
   I18n.trueOrochi: '真八岐大蛇',
   I18n.richMan: '大富翁',
   I18n.secret: '秘闻副本',
+  I18n.weeklyPurchase: '每周购买',
   I18n.weeklyTrifles: '每周琐事',
   I18n.mysteryShop: '神秘商店',
   I18n.duel: '斗技',

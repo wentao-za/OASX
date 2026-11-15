@@ -117,6 +117,7 @@ String buildErrorMarkdown(
   bool includeTaskSettings = false,
   ErrorTaskSettings taskSettings = const ErrorTaskSettings({}),
   String Function(String)? translate,
+  String Function(String)? taskLabel,
 }) {
   final summary = ErrorLogSummary.parse(
     detail.log.content,
@@ -124,7 +125,7 @@ String buildErrorMarkdown(
   );
   final output = StringBuffer('# OASX 错误报告\n\n');
   output.writeln(
-    '- 配置：${detail.scriptName ?? "归属未确认"}\n- 任务：${summary.task}\n- 时间：${detail.time}\n- 错误类型：${summary.type}\n',
+    '- 配置：${detail.scriptName ?? "归属未确认"}\n- 任务：${taskLabel?.call(summary.task) ?? summary.task}\n- 时间：${detail.time}\n- 错误类型：${summary.type}\n',
   );
   if (detail.log.truncated) output.writeln('> 注意：后端返回的日志已截断，以下不是完整日志。\n');
   if (includeTaskSettings) {

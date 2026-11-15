@@ -6,6 +6,7 @@ import 'package:oasx/modules/log/log_browser_models.dart';
 import 'package:oasx/modules/log/models/error_report.dart';
 import 'action_path_card.dart';
 import 'package:oasx/modules/log/script_log_browser_controller.dart';
+import 'package:oasx/service/task_name_service.dart';
 import 'package:oasx/translation/i18n_content.dart';
 
 part 'log_center_copy_dialog.dart';

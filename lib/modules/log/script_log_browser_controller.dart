@@ -15,6 +15,7 @@ import 'package:oasx/api/sse_client.dart';
 import 'package:oasx/modules/common/models/storage_key.dart';
 import 'package:oasx/modules/log/log_browser_models.dart';
 import 'package:oasx/modules/log/models/error_report.dart';
+import 'package:oasx/service/task_name_service.dart';
 import 'package:oasx/translation/i18n_content.dart';
 import 'package:oasx/utils/browser_download_io.dart'
     if (dart.library.html) 'package:oasx/utils/browser_download_web.dart';

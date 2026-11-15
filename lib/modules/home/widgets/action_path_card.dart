@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oasx/modules/home/models/script_analysis_models.dart';
+import 'package:oasx/service/task_name_service.dart';
 import 'package:oasx/translation/i18n_content.dart';
 
 Color taskPathColor(String task) {
@@ -125,39 +126,43 @@ class _ActionPathCardState extends State<ActionPathCard> {
                 children: [
                   for (final task
                       in widget.data.events.map((e) => e.task).toSet())
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: taskPathColor(task).withValues(alpha: .08),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.circle,
-                            size: 7,
-                            color: taskPathColor(task),
-                          ),
-                          const SizedBox(width: 5),
-                          Flexible(
-                            child: Text(
-                              task.tr,
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    _taskLegend(context, task),
                 ],
               ),
           ],
         ),
       ),
     );
+  }
+
+  /// Legend label shows the Chinese task name; the class name only lives in a
+  /// tooltip so the wrap stays one line per task.
+  Widget _taskLegend(BuildContext context, String task) {
+    final color = taskPathColor(task);
+    final label = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: .08),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.circle, size: 7, color: color),
+          const SizedBox(width: 5),
+          Flexible(
+            child: Text(
+              TaskNameService.to.display(task),
+              style: Theme.of(context).textTheme.bodySmall,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+    final code = TaskNameService.to.code(task);
+    return code == null ? label : Tooltip(message: code, child: label);
   }
 }
 

@@ -76,6 +76,7 @@ extension ScriptLogBrowserErrorsX on ScriptLogBrowserController {
             includeTaskSettings: attachSettings,
             taskSettings: settings,
             translate: (text) => text.tr,
+            taskLabel: (task) => TaskNameService.to.markdownLabel(task),
           ),
         ),
       );
